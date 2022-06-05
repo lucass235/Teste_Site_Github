@@ -33,7 +33,7 @@ public class SignTest {
     }
 
     @Test
-    public void testeTitleRepository() {
+    public void testTitleRepository() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\lucas\\Documents\\drives\\chromedriver.exe"); // caminho do webDriver
         WebDriver navegador = new ChromeDriver(); // iniciando navegador
 
@@ -48,10 +48,35 @@ public class SignTest {
 
         navegador.findElement((By.name("commit"))).click(); // Fazer login no github
 
-        navegador.findElement((By.linkText("lucassantos235/teste"))).click();
+        navegador.findElement((By.linkText("lucassantos235/teste"))).click(); // entrando nos repositorios
 
         String tituloRepositorio = navegador.findElement(By.xpath("/html/body/div[5]/div/main/div[2]/div/div/div[3]/div[1]/div[4]/div[2]/article/h1")).getText();
+        // pegando valor do titulo do repositorio.
 
         assertEquals("teste", tituloRepositorio);
+
+    }
+
+    @Test
+    public void testViwerPulls(){
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\lucas\\Documents\\drives\\chromedriver.exe"); // caminho do webDriver
+        WebDriver navegador = new ChromeDriver(); // iniciando navegador
+
+        navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); // aguardadndo 5 segundos para fazer os camandos do navegador
+
+        navegador.get("https://github.com/"); // entra no site  do github
+
+        navegador.findElement((By.linkText("Sign in"))).click(); // Apertando no botao login
+
+        navegador.findElement(By.name("login")).sendKeys("lucass601@gmail.com"); // inserindo email
+        navegador.findElement(By.name("password")).sendKeys("Teste235"); // inserindo senha
+
+        navegador.findElement((By.name("commit"))).click(); // Fazer login no github
+
+        navegador.findElement(By.linkText("Pull requests")).click(); // abrindo pulls
+
+        String pulls = navegador.findElement(By.xpath("/html/body/div[5]/main/turbo-frame/div[3]/div[2]/div/h3")).getText();
+
+        assertEquals("No results matched your search.", pulls);
     }
 }
